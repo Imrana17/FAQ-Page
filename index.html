@@ -66,10 +66,15 @@ body {
     border: none;
     padding: 1rem 1.5rem;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    /* transition: border 0.3s, box-shadow 0.3s; Removed hover transition */
+    transition: border 0.3s, box-shadow 0.3s;
 }
 
-/* Removed any :hover or focus styling from .search-box */
+.search-box:focus,
+.search-box:hover {
+    outline: none;
+    border: 2px solid var(--primary-green);
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+}
 
 .search-icon {
     position: absolute;
@@ -111,13 +116,13 @@ body {
 }
 
 .accordion-button::after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%232ecc71' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M8 4a.5.5 0 0 1 .5.[...]
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%232ecc71' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M8 4a.5.5 0 0 1 .5.[...]");
     transform: rotate(0deg);
     transition: transform 0.3s ease-in-out;
 }
 
 .accordion-button:not(.collapsed)::after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%232ecc71' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M4 8a.5.5 0 0 1 .5-[...]
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%232ecc71' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M4 8a.5.5 0 0 1 .5-[...]");
     transform: rotate(0deg);
 }
 
@@ -180,7 +185,7 @@ body {
         const faqData = [
             {
                 question: "What is programming?",
-                answer: "Programming is the process of writing instructions for a computer to follow using a specific language. These instructions tell the computer how to perform tasks like calculati[...]
+                answer: "Programming is the process of writing instructions for a computer to follow using a specific language. These instructions tell the computer how to perform tasks like calculati[...]"
             },
             {
                 question: "Which programming language should I start with?",
@@ -200,7 +205,7 @@ body {
             },
             {
                 question: "What is vibe coding or who is a vibe coder?",
-                answer: "A vibe coder is someone who codes in a relaxed, fun, or expressive way, often sharing cool, aesthetic, or chill coding sessions. It's not an official term, just a cultural exp[...]
+                answer: "A vibe coder is someone who codes in a relaxed, fun, or expressive way, often sharing cool, aesthetic, or chill coding sessions. It's not an official term, just a cultural exp[...]"
             },
             {
                 question: "Do I need a computer science degree to become a developer?",
@@ -311,52 +316,40 @@ body {
 
         // Search functionality
         function setupSearch() {
-    const searchInput = document.getElementById('searchInput');
-    const noResults = document.getElementById('noResults');
-
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase().trim();
-        let visibleItems = 0;
-
-        // Always get current accordion items
-        const accordionItems = document.querySelectorAll('.accordion-item');
-
-        accordionItems.forEach((item, index) => {
-            const question = originalContents[index].question;
-            const answer = originalContents[index].answer;
-            const questionElement = item.querySelector('.question-text');
-            const answerElement = item.querySelector('.answer-text');
-
-            // Reset to original content first
-            questionElement.innerHTML = originalContents[index].question;
-            answerElement.innerHTML = originalContents[index].answer;
-
-            if (
-                searchTerm === "" ||
-                question.toLowerCase().includes(searchTerm) ||
-                answer.toLowerCase().includes(searchTerm)
-            ) {
-                item.style.display = "block";
-                visibleItems++;
-
-                // Highlight matching text
-                if (searchTerm) {
-                    questionElement.innerHTML = highlightText(questionElement, question, searchTerm);
-                    answerElement.innerHTML = highlightText(answerElement, answer, searchTerm);
-                }
-            } else {
-                item.style.display = "none";
-            }
-        });
-
-        // Show no results message if needed
-        if (visibleItems === 0 && searchTerm) {
-            noResults.classList.remove("d-none");
-        } else {
-            noResults.classList.add("d-none");
-        }
-    });
-}
+            const searchInput = document.getElementById('searchInput');
+            const noResults = document.getElementById('noResults');
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                let visibleItems = 0;
+                
+                accordionItems.forEach((item, index) => {
+                    const question = originalContents[index].question;
+                    const answer = originalContents[index].answer;
+                    const questionElement = item.querySelector('.question-text');
+                    const answerElement = item.querySelector('.answer-text');
+                    
+                    // Reset to original content first
+                    questionElement.innerHTML = originalContents[index].question;
+                    answerElement.innerHTML = originalContents[index].answer;
+                    
+                    if (searchTerm === '' || 
+                        question.toLowerCase().includes(searchTerm) || 
+                        answer.toLowerCase().includes(searchTerm)) {
+                        
+                        item.style.display = 'block';
+                        visibleItems++;
+                        
+                        // Highlight matching text
+                        if (searchTerm) {
+                            questionElement.innerHTML = highlightText(questionElement, question, searchTerm);
+                            answerElement.innerHTML = highlightText(answerElement, answer, searchTerm);
+                        }
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
                 
                 // Show no results message if needed
                 if (visibleItems === 0 && searchTerm) {
@@ -376,4 +369,3 @@ body {
 </body>
 
 </html>
-
