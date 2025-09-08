@@ -311,40 +311,52 @@ body {
 
         // Search functionality
         function setupSearch() {
-            const searchInput = document.getElementById('searchInput');
-            const noResults = document.getElementById('noResults');
-            const accordionItems = document.querySelectorAll('.accordion-item');
-            
-            searchInput.addEventListener('input', function() {
-                const searchTerm = this.value.toLowerCase().trim();
-                let visibleItems = 0;
-                
-                accordionItems.forEach((item, index) => {
-                    const question = originalContents[index].question;
-                    const answer = originalContents[index].answer;
-                    const questionElement = item.querySelector('.question-text');
-                    const answerElement = item.querySelector('.answer-text');
-                    
-                    // Reset to original content first
-                    questionElement.innerHTML = originalContents[index].question;
-                    answerElement.innerHTML = originalContents[index].answer;
-                    
-                    if (searchTerm === '' || 
-                        question.toLowerCase().includes(searchTerm) || 
-                        answer.toLowerCase().includes(searchTerm)) {
-                        
-                        item.style.display = 'block';
-                        visibleItems++;
-                        
-                        // Highlight matching text
-                        if (searchTerm) {
-                            questionElement.innerHTML = highlightText(questionElement, question, searchTerm);
-                            answerElement.innerHTML = highlightText(answerElement, answer, searchTerm);
-                        }
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
+    const searchInput = document.getElementById('searchInput');
+    const noResults = document.getElementById('noResults');
+
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase().trim();
+        let visibleItems = 0;
+
+        // Always get current accordion items
+        const accordionItems = document.querySelectorAll('.accordion-item');
+
+        accordionItems.forEach((item, index) => {
+            const question = originalContents[index].question;
+            const answer = originalContents[index].answer;
+            const questionElement = item.querySelector('.question-text');
+            const answerElement = item.querySelector('.answer-text');
+
+            // Reset to original content first
+            questionElement.innerHTML = originalContents[index].question;
+            answerElement.innerHTML = originalContents[index].answer;
+
+            if (
+                searchTerm === "" ||
+                question.toLowerCase().includes(searchTerm) ||
+                answer.toLowerCase().includes(searchTerm)
+            ) {
+                item.style.display = "block";
+                visibleItems++;
+
+                // Highlight matching text
+                if (searchTerm) {
+                    questionElement.innerHTML = highlightText(questionElement, question, searchTerm);
+                    answerElement.innerHTML = highlightText(answerElement, answer, searchTerm);
+                }
+            } else {
+                item.style.display = "none";
+            }
+        });
+
+        // Show no results message if needed
+        if (visibleItems === 0 && searchTerm) {
+            noResults.classList.remove("d-none");
+        } else {
+            noResults.classList.add("d-none");
+        }
+    });
+}
                 
                 // Show no results message if needed
                 if (visibleItems === 0 && searchTerm) {
@@ -364,3 +376,4 @@ body {
 </body>
 
 </html>
+
