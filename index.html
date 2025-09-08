@@ -66,10 +66,10 @@ body {
     border: none;
     padding: 1rem 1.5rem;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transition: border 0.3s, box-shadow 0.3s;
+    /* transition: border 0.3s, box-shadow 0.3s; Removed hover transition */
 }
 
-
+/* Removed any :hover or focus styling from .search-box */
 
 .search-icon {
     position: absolute;
@@ -111,13 +111,13 @@ body {
 }
 
 .accordion-button::after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%232ecc71' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M8 4a.5.5 0 0 1 .5.[...]");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%232ecc71' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M8 4a.5.5 0 0 1 .5.[...]
     transform: rotate(0deg);
     transition: transform 0.3s ease-in-out;
 }
 
 .accordion-button:not(.collapsed)::after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%232ecc71' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M4 8a.5.5 0 0 1 .5-[...]");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%232ecc71' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M4 8a.5.5 0 0 1 .5-[...]
     transform: rotate(0deg);
 }
 
@@ -180,7 +180,7 @@ body {
         const faqData = [
             {
                 question: "What is programming?",
-                answer: "Programming is the process of writing instructions for a computer to follow using a specific language. These instructions tell the computer how to perform tasks like calculati[...]"
+                answer: "Programming is the process of writing instructions for a computer to follow using a specific language. These instructions tell the computer how to perform tasks like calculati[...]
             },
             {
                 question: "Which programming language should I start with?",
@@ -200,7 +200,7 @@ body {
             },
             {
                 question: "What is vibe coding or who is a vibe coder?",
-                answer: "A vibe coder is someone who codes in a relaxed, fun, or expressive way, often sharing cool, aesthetic, or chill coding sessions. It's not an official term, just a cultural exp[...]"
+                answer: "A vibe coder is someone who codes in a relaxed, fun, or expressive way, often sharing cool, aesthetic, or chill coding sessions. It's not an official term, just a cultural exp[...]
             },
             {
                 question: "Do I need a computer science degree to become a developer?",
@@ -364,4 +364,3 @@ body {
 </body>
 
 </html>
-
