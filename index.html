@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ Section</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+       :root {
+    --primary-green: #2ecc71;
+    --light-green: #d5f5e3;
+    --lemon: #f9e79f;
+    --white: #ffffff;
+    --dark-text: #2c3e50;
+    /* --footer-dark-blue: #223a57; Removed, no longer needed */
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #f8f9fa;
+    color: var(--dark-text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    position: relative;
+    /* padding-bottom: 80px;  Removed, no footer */
+}
+
+.faq-header {
+    background: linear-gradient(135deg, var(--primary-green) 0%, #27ae60 100%);
+    color: var(--white);
+    padding: 3rem 0;
+    margin-bottom: 2rem;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.faq-header h1 {
+    background: linear-gradient(90deg, #2ecc71, #f9e79f, #27ae60, #e67e22, #9b59b6);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientMove 5s ease infinite;
+    font-weight: 700;
+}
+
+@keyframes gradientMove {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+.search-container {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.search-box {
+    border-radius: 50px;
+    border: none;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+.search-box:focus,
+.search-box:hover {
+    outline: none;
+    border: 2px solid var(--primary-green);
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #2c3e50;
+    pointer-events: none;
+    font-weight: bold;
+    font-size: 1.4em;
+    filter: drop-shadow(0px 0px 2px #aaa);
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+}
+
+.accordion-item {
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+.accordion-button {
+    background-color: var(--white);
+    color: var(--dark-text);
+    font-weight: 600;
+    padding: 1.25rem;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: var(--light-green);
+    color: var(--dark-text);
+}
+
+.accordion-button::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%232ecc71' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M8 4a.5.5 0 0 1 .5.[...]");
+    transform: rotate(0deg);
+    transition: transform 0.3s ease-in-out;
+}
+
+.accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%232ecc71' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M4 8a.5.5 0 0 1 .5-[...]");
+    transform: rotate(0deg);
+}
+
+.accordion-body {
+    background-color: var(--white);
+    padding: 1.25rem;
+}
+
+.no-results {
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--lemon);
+    border-radius: 8px;
+    margin-top: 2rem;
+}
+
+.faq-icon {
+    color: var(--primary-green);
+    margin-right: 10px;
+}
+
+.highlight {
+    background-color: var(--lemon);
+    padding: 0 2px;
+    font-weight: 600;
+}
+    </style>
+</head>
+<body>
+    <!-- Header with search -->
+    <header class="faq-header">
+        <div class="container">
+            <h1 class="text-center mb-4">Frequently Asked Questions</h1>
+            <div class="search-container position-relative">
+                <input type="text" id="searchInput" class="form-control search-box" placeholder="Search for questions or answers...">
+                <i class="bi bi-search search-icon"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- FAQ Accordion -->
+    <div class="container faq-container">
+        <div class="accordion" id="faqAccordion">
+            <!-- FAQ items will be generated here -->
+        </div>
+        <div id="noResults" class="no-results d-none">
+            <i class="bi bi-question-circle-fill display-4 d-block mb-3" style="color: #2c3e50;"></i>
+            <h3>No matching questions found</h3>
+            <p class="mb-0">Try different keywords or browse all questions</p>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap & jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // FAQ data - dummy content
+        const faqData = [
+            {
+                question: "What is programming?",
+                answer: "Programming is the process of writing instructions for a computer to follow using a specific language. These instructions tell the computer how to perform tasks like calculati[...]"
+            },
+            {
+                question: "Which programming language should I start with?",
+                answer: "Start with a beginner-friendly language like Python. It has simple syntax and is used in many fields like web development, automation, and data science."
+            },
+            {
+                question: "How do I start learning to code?",
+                answer: "Begin with online tutorials (e.g., YouTube, freeCodeCamp), follow structured courses, and most importantly, build small projects to practice what you learn."
+            },
+            {
+                question: "Is YouTube a good place to learn programming?",
+                answer: "Yes, YouTube has many high-quality tutorials for free. Just make sure to follow practical lessons, not just theory, and build along with the videos."
+            },
+            {
+                question: "What is a full-stack developer?",
+                answer: "A full-stack developer works on both the frontend (what users see) and backend (server, database, logic) parts of a web application."
+            },
+            {
+                question: "What is vibe coding or who is a vibe coder?",
+                answer: "A vibe coder is someone who codes in a relaxed, fun, or expressive way, often sharing cool, aesthetic, or chill coding sessions. It's not an official term, just a cultural exp[...]"
+            },
+            {
+                question: "Do I need a computer science degree to become a developer?",
+                answer: "No, many developers are self-taught. What matters most is your skills, portfolio, and ability to solve problems."
+            },
+             {
+                question: "What tools do I need to start coding?",
+                answer: " You need a code editor (like VS Code), a browser (like Chrome), and sometimes a terminal or command line. Most tools are free."
+            },
+             {
+                question: "How long does it take to learn programming?",
+                answer: "It varies. You can learn basics in a few months, but becoming job-ready might take 6–12 months with consistent practice."
+            },
+             {
+                question: "What is HTML, CSS, and JavaScript?",
+                answer: "They are the core technologies of the web, HTML structures content, CSS styles it, JavaScript makes it interactive."
+            },
+             {
+                question: "What’s the difference between frontend and backend?",
+                answer: " Frontend is everything users interact with (web design, buttons, layout). Backend is what happens behind the scenes (server logic, database)."
+            },
+             {
+                question: "Should I learn web development or app development first?",
+                answer: "If you want faster results and easier deployment, start with web development. App development is great too but may have a steeper setup curve."
+            },
+             {
+                question: "What is Git and GitHub?",
+                answer: "Git is a version control system to track changes in code. GitHub is an online platform to store and collaborate on projects using Git."
+             },
+             {
+                question: "Can I code using just my phone?",
+                answer: "Yes, to some extent. Apps like Dcoder, Termux, or Replit let you write code on a phone, but it's easier and faster on a computer."
+            },
+             {
+                question: "What’s the difference between a software developer and a software engineer?",
+                answer: "The terms are often used interchangeably, but engineers usually focus more on system design and architecture, while developers focus on writing and building software."
+            },
+             {
+                question: "Is coding hard?",
+                answer: "At first, it can be confusing — like learning a new language. But with practice, it becomes easier. The key is patience and consistency."
+            },
+             {
+                question: "What is the best way to practice coding?",
+                answer: "Build small projects (like to-do apps, calculators), solve coding challenges, and collaborate on open-source or team projects."
+            },
+             {
+                question: "What’s the difference between Java and JavaScript?",
+                answer: "Despite the similar names, they are very different. Java is used for Android apps, enterprise software. JavaScript is mainly used for websites and web apps."
+            },
+             {
+                question: "What is an API?",
+                answer: "An API (Application Programming Interface) allows different software or apps to communicate. For example, a weather app using a weather API to get real-time data."
+            },
+             {
+                question: "Can I get a job with just online courses and projects?",
+                answer: "Yes, many people have done it. Build a solid portfolio, learn how to solve real problems, and apply to internships, freelance, or remote roles."
+            }
+
+        ];
+
+        // Store original content for highlighting
+        const originalContents = [];
+
+        // Initialize FAQ items
+        function initializeFAQ() {
+            const accordion = document.getElementById('faqAccordion');
+            accordion.innerHTML = '';
+            
+            faqData.forEach((item, index) => {
+                const accordionItem = document.createElement('div');
+                accordionItem.className = 'accordion-item';
+                accordionItem.setAttribute('data-question', item.question.toLowerCase());
+                accordionItem.setAttribute('data-answer', item.answer.toLowerCase());
+                
+                accordionItem.innerHTML = `
+                    <h2 class="accordion-header" id="heading${index}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                data-bs-target="#collapse${index}" aria-expanded="false" 
+                                aria-controls="collapse${index}">
+                            <i class="bi bi-question-circle faq-icon"></i>
+                            <span class="question-text">${item.question}</span>
+                        </button>
+                    </h2>
+                    <div id="collapse${index}" class="accordion-collapse collapse" 
+                         aria-labelledby="heading${index}" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body">
+                            <span class="answer-text">${item.answer}</span>
+                        </div>
+                    </div>
+                `;
+                accordion.appendChild(accordionItem);
+                
+                // Store original content
+                originalContents[index] = {
+                    question: item.question,
+                    answer: item.answer
+                };
+            });
+        }
+
+        // Highlight text function
+        function highlightText(element, text, searchTerm) {
+            if (!searchTerm) return text;
+            
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        // Search functionality
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const noResults = document.getElementById('noResults');
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                let visibleItems = 0;
+                
+                accordionItems.forEach((item, index) => {
+                    const question = originalContents[index].question;
+                    const answer = originalContents[index].answer;
+                    const questionElement = item.querySelector('.question-text');
+                    const answerElement = item.querySelector('.answer-text');
+                    
+                    // Reset to original content first
+                    questionElement.innerHTML = originalContents[index].question;
+                    answerElement.innerHTML = originalContents[index].answer;
+                    
+                    if (searchTerm === '' || 
+                        question.toLowerCase().includes(searchTerm) || 
+                        answer.toLowerCase().includes(searchTerm)) {
+                        
+                        item.style.display = 'block';
+                        visibleItems++;
+                        
+                        // Highlight matching text
+                        if (searchTerm) {
+                            questionElement.innerHTML = highlightText(questionElement, question, searchTerm);
+                            answerElement.innerHTML = highlightText(answerElement, answer, searchTerm);
+                        }
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // Show no results message if needed
+                if (visibleItems === 0 && searchTerm) {
+                    noResults.classList.remove('d-none');
+                } else {
+                    noResults.classList.add('d-none');
+                }
+            });
+        }
+
+        // Initialize when document is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeFAQ();
+            setupSearch();
+        });
+    </script>
+</body>
+
+</html>
